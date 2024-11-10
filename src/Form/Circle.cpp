@@ -2,8 +2,8 @@
 #include <cmath>
 #include <iostream>
 
-Circle::Circle(int xPos, int yPos, int radius, int r, int g, int b, int fr, int fg, int fb, int t)
-        : x(xPos), y(yPos), radius(radius), color(r, g, b), fillColor(fr, fg, fb), transparency(t) {}
+Circle::Circle(int xPos, int yPos, int radius, int r, int g, int b, int t)
+        : x(xPos), y(yPos), radius(radius), color(r, g, b), transparency(t) {}
 
 void Circle::draw(CImage &image) {
     int imageHeight = image.size();  // Hauteur de l'image
@@ -20,65 +20,34 @@ void Circle::draw(CImage &image) {
     // Conversion de la transparence de 0-100% en 0-255
     int transparency255 = static_cast<int>(transparency * 2.55);
 
-    // Algorithme de tracé de cercle pour le remplissage et le contour
-    for (int dy = -radius; dy <= radius; dy++) {
-        int dx = static_cast<int>(sqrt(radius * radius - dy * dy));
-
-        // Remplissage
-        for (int i = -dx; i <= dx; i++) {
-            int px = x + i;
-            int py = y + dy;
-
-            // Inverser Y : l'image est inversée sur l'axe Y
-            py = imageHeight - py - 1;
-
-            // Vérification des limites
-            if (px >= 0 && px < imageWidth && py >= 0 && py < imageHeight) {
-                CPixel* pixel = image.getPixel(px, py);
-                if (pixel) {
-                    int newRed, newGreen, newBlue;
-
-                    // Appliquer la couleur de remplissage en fonction de la transparence
-                    if (transparency == 100) {
-                        newRed = fillColor.Red();
-                        newGreen = fillColor.Green();
-                        newBlue = fillColor.Blue();
-                    } else {
-                        // Mélange de couleur de remplissage avec l'arrière-plan
-                        newRed = (pixel->Red() * (255 - transparency255) + fillColor.Red() * transparency255) / 255;
-                        newGreen = (pixel->Green() * (255 - transparency255) + fillColor.Green() * transparency255) / 255;
-                        newBlue = (pixel->Blue() * (255 - transparency255) + fillColor.Blue() * transparency255) / 255;
-                    }
-                    pixel->RGB(newRed, newGreen, newBlue);
-                }
-            } else {
-                std::cout << "Circle::draw => Position out of bounds (" << px << ", " << py << ")" << std::endl;
-            }
-        }
-    }
-
-    // Contour
+    // Contour du cercle
     for (int dy = -radius; dy <= radius; dy++) {
         int dx = static_cast<int>(sqrt(radius * radius - dy * dy));
         int px1 = x + dx;
         int px2 = x - dx;
         int py = y + dy;
 
-        // Inverser Y pour les contours
+        // Inverser Y pour correspondre à la disposition de l'image
         py = imageHeight - py - 1;
 
         // Vérification des limites pour le contour
         if (px1 >= 0 && px1 < imageWidth && py >= 0 && py < imageHeight) {
             CPixel* pixel1 = image.getPixel(px1, py);
             if (pixel1) {
-                pixel1->RGB(color.Red(), color.Green(), color.Blue());
+                int newRed = (pixel1->Red() * (255 - transparency255) + color.Red() * transparency255) / 255;
+                int newGreen = (pixel1->Green() * (255 - transparency255) + color.Green() * transparency255) / 255;
+                int newBlue = (pixel1->Blue() * (255 - transparency255) + color.Blue() * transparency255) / 255;
+                pixel1->RGB(newRed, newGreen, newBlue);
             }
         }
 
         if (px2 >= 0 && px2 < imageWidth && py >= 0 && py < imageHeight) {
             CPixel* pixel2 = image.getPixel(px2, py);
             if (pixel2) {
-                pixel2->RGB(color.Red(), color.Green(), color.Blue());
+                int newRed = (pixel2->Red() * (255 - transparency255) + color.Red() * transparency255) / 255;
+                int newGreen = (pixel2->Green() * (255 - transparency255) + color.Green() * transparency255) / 255;
+                int newBlue = (pixel2->Blue() * (255 - transparency255) + color.Blue() * transparency255) / 255;
+                pixel2->RGB(newRed, newGreen, newBlue);
             }
         }
     }

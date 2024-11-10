@@ -1,8 +1,8 @@
 #include "Square.h"
+#include <iostream>
 
 Square::Square(int xPos, int yPos, int len, int r, int g, int b, int t)
-        : x(xPos), y(yPos), length(len), color(r, g, b), transparency(t) {
-}
+        : x(xPos), y(yPos), length(len), color(r, g, b), transparency(t) {}
 
 void Square::draw(CImage &image) {
     // Conversion de la transparence de 0-100% en 0-255
@@ -14,21 +14,22 @@ void Square::draw(CImage &image) {
     // Inverser l'axe Y pour le carré
     int invertedY = imageHeight - y - length;  // Calcul de la position inversée du bas du carré
 
+    // Dessiner le contour du carré
     for (int i = x; i < x + length; i++) {
         for (int j = invertedY; j < invertedY + length; j++) {  // Utilisez 'length' pour la hauteur également
-            CPixel* pixel = image.getPixel(i, j);
-            if (pixel) {
-                if (transparency == 100) { // Pas de transparence
-                    pixel->RGB(color.Red(), color.Green(), color.Blue());
-                } else {
-                    // Mélange de la couleur avec l'arrière-plan en fonction de la transparence
-                    int newRed = (pixel->Red() * (255 - transparency255) + color.Red() * transparency255) / 255;
-                    int newGreen = (pixel->Green() * (255 - transparency255) + color.Green() * transparency255) / 255;
-                    int newBlue = (pixel->Blue() * (255 - transparency255) + color.Blue() * transparency255) / 255;
-                    pixel->RGB(newRed, newGreen, newBlue);
+            if (i == x || i == x + length - 1 || j == invertedY || j == invertedY + length - 1) {
+                CPixel* pixel = image.getPixel(i, j);
+                if (pixel) {
+                    if (transparency == 100) { // Pas de transparence
+                        pixel->RGB(color.Red(), color.Green(), color.Blue());
+                    } else {
+                        // Mélange de la couleur avec l'arrière-plan en fonction de la transparence
+                        int newRed = (pixel->Red() * (255 - transparency255) + color.Red() * transparency255) / 255;
+                        int newGreen = (pixel->Green() * (255 - transparency255) + color.Green() * transparency255) / 255;
+                        int newBlue = (pixel->Blue() * (255 - transparency255) + color.Blue() * transparency255) / 255;
+                        pixel->RGB(newRed, newGreen, newBlue);
+                    }
                 }
-            } else {
-                std::cout << "Square::draw => Position out of bounds (" << i << ", " << j << ")" << std::endl;
             }
         }
     }

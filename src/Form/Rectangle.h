@@ -5,23 +5,28 @@
 #include "../Image/CImage.h"   // Include CImage for drawing
 
 class Rectangle {
-private:
-    int x;            // X coordinate of the bottom-left corner
-    int y;            // Y coordinate of the bottom-left corner
-    int length;       // Width of the rectangle
-    int height;       // Height of the rectangle
-    CPixel color;     // Color of the rectangle
-    int transparency; // Transparency (0 to 100)
+protected:
+    int x, y, length, height;  // Position et dimensions du rectangle
+    CPixel color;               // Couleur du rectangle
+    int transparency;           // Transparence du rectangle (0-100)
 
 public:
-    // Constructor with position, dimensions, color, and transparency
-    Rectangle(int xPos, int yPos, int length, int height, int r, int g, int b, int t);
+    // Constructeur
+    Rectangle(int xPos, int yPos, int l, int h, int r, int g, int b, int t);
 
-    // Method to draw the rectangle on an image
-    void draw(CImage &image);
+    // Méthode de dessin du rectangle
+    virtual void draw(CImage &image);
 
-    // Déclaration de la méthode scale
+    // Accesseurs
+    int getX() const { return x; }
+    int getY() const { return y; }
+    int getLength() const { return length; }
+    int getHeight() const { return height; }
+    CPixel getColor() const { return color; }
+    int getTransparency() const { return transparency; }
+
+    // Méthode pour mettre à l'échelle le rectangle
     void scale(float factor);
 };
 
-#endif /* RECTANGLE_H_ */
+#endif // RECTANGLE_H

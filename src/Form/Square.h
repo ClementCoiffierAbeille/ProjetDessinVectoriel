@@ -5,7 +5,7 @@
 #include "../Image/CImage.h"   // Include CImage for drawing
 
 class Square {
-private:
+protected:
     int x;            // X coordinate of the bottom-left corner
     int y;            // Y coordinate of the bottom-left corner
     int length;       // Length of the square (width and height are the same)
@@ -17,7 +17,14 @@ public:
     Square(int xPos, int yPos, int length, int r, int g, int b, int t);
 
     // Method to draw the square on an image
-    void draw(CImage &image);
+    virtual void draw(CImage &image);
+
+    // Accesseurs
+    int getX() const { return x; }
+    int getY() const { return y; }
+    int getLength() const { return length; }
+    CPixel getColor() const { return color; }
+    int getTransparency() const { return transparency; }
 
     // Method to scale the square by a factor
     void scale(float factor);

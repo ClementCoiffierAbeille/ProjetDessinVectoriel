@@ -15,6 +15,9 @@ SRC=./src/Format/CBitmap.cpp \
     ./src/Form/Rectangle.cpp \
     ./src/Form/Circle.cpp    \
     ./src/Form/Square.cpp	\
+    ./src/Form/CircleS.cpp	\
+    ./src/Form/RectangleS.cpp	\
+    ./src/Form/SquareS.cpp	\
     ./src/main.cpp
 
 OBJ= $(SRC:.cpp=.o)

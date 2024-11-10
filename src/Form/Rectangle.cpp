@@ -1,42 +1,59 @@
 #include "Rectangle.h"
+#include <iostream>
 
 Rectangle::Rectangle(int xPos, int yPos, int l, int h, int r, int g, int b, int t)
         : x(xPos), y(yPos), length(l), height(h), color(r, g, b), transparency(t) {
 }
 
 void Rectangle::draw(CImage &image) {
-    // Conversion de la transparence de 0-100% en 0-255
     int transparency255 = static_cast<int>(transparency * 2.55);
-
-    // Récupérer la hauteur de l'image
     int imageHeight = image.size();
+    int invertedY = imageHeight - y - height;
 
-    // Inverser l'axe Y pour le rectangle
-    int invertedY = imageHeight - y - height;  // Calcul de la position inversée du bas du rectangle
-
+    // Dessiner le contour (lignes horizontales en haut et en bas)
     for (int i = x; i < x + length; i++) {
-        for (int j = invertedY; j < invertedY + height; j++) {
-            CPixel* pixel = image.getPixel(i, j);
-            if (pixel) {
-                if (transparency == 100) { // Pas de transparence
-                    pixel->RGB(color.Red(), color.Green(), color.Blue());
-                } else {
-                    // Mélange de la couleur avec l'arrière-plan en fonction de la transparence
-                    int newRed = (pixel->Red() * (255 - transparency255) + color.Red() * transparency255) / 255;
-                    int newGreen = (pixel->Green() * (255 - transparency255) + color.Green() * transparency255) / 255;
-                    int newBlue = (pixel->Blue() * (255 - transparency255) + color.Blue() * transparency255) / 255;
-                    pixel->RGB(newRed, newGreen, newBlue);
-                }
-            } else {
-                std::cout << "Rectangle::draw => Position out of bounds (" << i << ", " << j << ")" << std::endl;
-            }
+        // Ligne du haut
+        CPixel* topPixel = image.getPixel(i, invertedY);
+        if (topPixel) {
+            int newRed = (topPixel->Red() * (255 - transparency255) + color.Red() * transparency255) / 255;
+            int newGreen = (topPixel->Green() * (255 - transparency255) + color.Green() * transparency255) / 255;
+            int newBlue = (topPixel->Blue() * (255 - transparency255) + color.Blue() * transparency255) / 255;
+            topPixel->RGB(newRed, newGreen, newBlue);
+        }
+
+        // Ligne du bas
+        CPixel* bottomPixel = image.getPixel(i, invertedY + height - 1);
+        if (bottomPixel) {
+            int newRed = (bottomPixel->Red() * (255 - transparency255) + color.Red() * transparency255) / 255;
+            int newGreen = (bottomPixel->Green() * (255 - transparency255) + color.Green() * transparency255) / 255;
+            int newBlue = (bottomPixel->Blue() * (255 - transparency255) + color.Blue() * transparency255) / 255;
+            bottomPixel->RGB(newRed, newGreen, newBlue);
+        }
+    }
+
+    // Dessiner les côtés gauche et droit
+    for (int j = invertedY; j < invertedY + height; j++) {
+        // Côté gauche
+        CPixel* leftPixel = image.getPixel(x, j);
+        if (leftPixel) {
+            int newRed = (leftPixel->Red() * (255 - transparency255) + color.Red() * transparency255) / 255;
+            int newGreen = (leftPixel->Green() * (255 - transparency255) + color.Green() * transparency255) / 255;
+            int newBlue = (leftPixel->Blue() * (255 - transparency255) + color.Blue() * transparency255) / 255;
+            leftPixel->RGB(newRed, newGreen, newBlue);
+        }
+
+        // Côté droit
+        CPixel* rightPixel = image.getPixel(x + length - 1, j);
+        if (rightPixel) {
+            int newRed = (rightPixel->Red() * (255 - transparency255) + color.Red() * transparency255) / 255;
+            int newGreen = (rightPixel->Green() * (255 - transparency255) + color.Green() * transparency255) / 255;
+            int newBlue = (rightPixel->Blue() * (255 - transparency255) + color.Blue() * transparency255) / 255;
+            rightPixel->RGB(newRed, newGreen, newBlue);
         }
     }
 }
 
-// Définition de la méthode scale
 void Rectangle::scale(float factor) {
-    // Modifie la position du rectangle et ses dimensions en fonction du facteur d'échelle
     x = static_cast<int>(x * factor);
     y = static_cast<int>(y * factor);
     length = static_cast<int>(length * factor);

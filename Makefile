@@ -10,6 +10,11 @@ SRC=./src/Format/CBitmap.cpp \
     ./src/Image/CImage.cpp   \
     ./src/Image/CLigne.cpp   \
     ./src/Image/CPixel.cpp   \
+    ./src/Form/Point.cpp     \
+    ./src/Form/Line.cpp     \
+    ./src/Form/Rectangle.cpp \
+    ./src/Form/Circle.cpp    \
+    ./src/Form/Square.cpp	\
     ./src/main.cpp
 
 OBJ= $(SRC:.cpp=.o)
@@ -24,9 +29,13 @@ main: $(OBJ)
 
 .PHONY: clean mrproper
 
+# Règle pour nettoyer les fichiers compilés
 clean:
-	find ./bin -name main -exec rm {} \;
-	find ./src -name *.o  -exec rm {} \;
+	@echo "Cleaning up..."
+	@rm -f ./bin/main  # Utiliser -f pour éviter les erreurs si le fichier n'existe pas
+	@rm -f ./src/*.o    # Utiliser -f pour éviter les erreurs
 
+# Règle pour un nettoyage complet
 mrproper: clean
-	rm $(EXEC)
+	@echo "Removing all generated files..."
+	@rm -f ./bin/$(EXEC)  # Utiliser -f pour éviter les erreurs

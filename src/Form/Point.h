@@ -1,15 +1,24 @@
-#ifndef POINT_H
-#define POINT_H
+#ifndef CPOINT_H_
+#define CPOINT_H_
 
-#include "Form.h"
+#include "../Image/CPixel.h"   // Inclusion de CPixel pour la couleur
+#include "../Image/CImage.h"   // Inclusion de CImage pour l'affichage
 
-class Point : public Form {
+class CPoint {
+private:
+    int x;           // Position x du point
+    int y;           // Position y du point
+    CPixel color;    // Couleur du point
+    int transparency; // Transparence du point (0 à 255)
+
 public:
-    // Constructeur de la classe Point
-    Point(int x, int y, const std::string& color, int transparency);
+    int getX() const { return x; }
+    int getY() const { return y; }
+    // Constructeur avec position, couleur et transparence
+    CPoint(int xPos, int yPos, int r, int g, int b, int t);
 
-    // Implémentation de la méthode DrawForm pour afficher un point
-    void DrawForm() const override;
+    // Méthode pour dessiner le point sur une image
+    void draw(CImage &image);
 };
 
-#endif // POINT_H
+#endif /* CPOINT_H_ */

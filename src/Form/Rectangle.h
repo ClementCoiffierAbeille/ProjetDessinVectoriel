@@ -1,19 +1,27 @@
-#ifndef RECTANGLE_H
-#define RECTANGLE_H
+#ifndef RECTANGLE_H_
+#define RECTANGLE_H_
 
-#include "Form.h"
+#include "../Image/CPixel.h"   // Include CPixel for color
+#include "../Image/CImage.h"   // Include CImage for drawing
 
-class Rectangle : public Form {
-protected:
-    int length;  // Longueur du rectangle
-    int height;  // Hauteur du rectangle
+class Rectangle {
+private:
+    int x;            // X coordinate of the bottom-left corner
+    int y;            // Y coordinate of the bottom-left corner
+    int length;       // Width of the rectangle
+    int height;       // Height of the rectangle
+    CPixel color;     // Color of the rectangle
+    int transparency; // Transparency (0 to 100)
 
 public:
-    // Constructeur de la classe Rectangle
-    Rectangle(int x, int y, int length, int height, const std::string& color, int transparency);
+    // Constructor with position, dimensions, color, and transparency
+    Rectangle(int xPos, int yPos, int length, int height, int r, int g, int b, int t);
 
-    // Implémentation de la méthode DrawForm pour dessiner un rectangle
-    void DrawForm() const override;
+    // Method to draw the rectangle on an image
+    void draw(CImage &image);
+
+    // Déclaration de la méthode scale
+    void scale(float factor);
 };
 
-#endif // RECTANGLE_H
+#endif /* RECTANGLE_H_ */

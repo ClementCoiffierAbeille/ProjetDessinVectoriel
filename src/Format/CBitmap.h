@@ -1,10 +1,6 @@
 /*
  *  CBitmap.h
  *  CBitmap
- *
- *  Created by Le Gal on 24/10/06.
- *  Copyright 2006 ENSEIRB. All rights reserved.
- *
  */
 #include <stdio.h>
 #include <stdlib.h>

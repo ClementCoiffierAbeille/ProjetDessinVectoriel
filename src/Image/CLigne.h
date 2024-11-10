@@ -1,10 +1,6 @@
 /*
  *  CLigne.h
  *  P_Bitmap
- *
- *  Created by Le Gal on 24/10/06.
- *  Copyright 2006 __MyCompanyName__. All rights reserved.
- *
  */
 
 #include <stdio.h>
@@ -20,19 +16,19 @@ using namespace std;
 
 class CLigne{
 private:
-	CPixel** ligne;
-	int taille;
+    CPixel** ligne;
+    int taille;
 
 public:
-	CLigne(int _taille);
+    CLigne(int _taille);
 
-	CLigne();
+    CLigne();
 
-	~CLigne();
+    ~CLigne();
 
-	int size();
+    int size();
 
-	CPixel* getPixel(int position);
+    CPixel* getPixel(int position);
 };
 
 #endif /*CLIGNE_H_*/

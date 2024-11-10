@@ -1,18 +1,27 @@
-#ifndef LINE_H
-#define LINE_H
+#ifndef LIGNE_H_
+#define LIGNE_H_
 
-#include "Form.h"
+#include "../Image/CPixel.h"   // Include CPixel for color
+#include "../Image/CImage.h"    // Include CImage for drawing
 
-class Line : public Form {
+class Ligne {
 private:
-    int x2, y2;  // Coordonnées de fin de la ligne
+    int x1;           // Start point x-coordinate
+    int y1;           // Start point y-coordinate
+    int x2;           // End point x-coordinate
+    int y2;           // End point y-coordinate
+    CPixel color;     // Color of the line
+    int transparency; // Transparency of the line (0 to 255)
 
 public:
-    // Constructeur de la classe Line
-    Line(int x, int y, int x2, int y2, const std::string& color, int transparency);
+    // Constructor with coordinates, color, and transparency
+    Ligne(int x1Pos, int y1Pos, int x2Pos, int y2Pos, int r, int g, int b, int t);
 
-    // Implémentation de la méthode DrawForm pour afficher une ligne
-    void DrawForm() const override;
+    // Method to draw the line on an image
+    void draw(CImage &image);
+
+    // Déclaration de la méthode scale
+    void scale(float factor);
 };
 
-#endif // LINE_H
+#endif /* LIGNE_H_ */

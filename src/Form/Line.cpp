@@ -11,8 +11,8 @@ void Ligne::draw(CImage &image) {
 
     // Inverser l'axe Y (en fonction de la hauteur de l'image)
     int imageHeight = image.size();
-    y1 = imageHeight - y1;  // Inverser Y1
-    y2 = imageHeight - y2;  // Inverser Y2
+    y1 = imageHeight - y1;
+    y2 = imageHeight - y2;
 
     // Utilisation de l'algorithme de Bresenham pour dessiner la ligne
     int dx = abs(x2 - x1);
@@ -25,7 +25,7 @@ void Ligne::draw(CImage &image) {
         CPixel* pixel = image.getPixel(x1, y1);
         if (pixel) {
             // Appliquer la couleur et la transparence
-            if (transparency == 100) { // 100% de couleur sans transparence
+            if (transparency == 100) {
                 pixel->RGB(color.Red(), color.Green(), color.Blue());
             } else {
                 // Mélange de la couleur avec l'arrière-plan en fonction de la transparence
@@ -36,7 +36,6 @@ void Ligne::draw(CImage &image) {
             }
         }
 
-        // Sortir de la boucle lorsque le point final est atteint
         if (x1 == x2 && y1 == y2) break;
         int err2 = err * 2;
         if (err2 > -dy) {
@@ -52,7 +51,7 @@ void Ligne::draw(CImage &image) {
 
 // Définition de la méthode scale
 void Ligne::scale(float factor) {
-    // Modifie les coordonnées des deux points de la ligne en fonction du facteur d'échelle
+
     x1 = static_cast<int>(x1 * factor);
     y1 = static_cast<int>(y1 * factor);
     x2 = static_cast<int>(x2 * factor);

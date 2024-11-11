@@ -290,11 +290,13 @@ void parseFileAndLoadShapes(const string& filename, vector<Drawable*>& shapes) {
     }
 }
 
+
 int main(int argc, char* argv[]) {
     cout << "(II) P_Bitmap execution start (" << __DATE__ << " - " << __TIME__ << ")" << endl;
 
     CBitmap* image = new CBitmap();
     string outputFilename = "Sortie.bmp";
+
 
     // Appliquer le facteur d'échelle pour redimensionner l'image
     float scaleFactor = 2.0;

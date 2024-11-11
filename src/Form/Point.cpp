@@ -11,7 +11,7 @@ void CPoint::draw(CImage &image) {
     CPixel* pixel = image.getPixel(x, y);
     if (pixel) {
         // Appliquer la couleur et la transparence
-        if (transparency == 100) { // 100% de couleur sans transparence
+        if (transparency == 100) {
             pixel->RGB(color.Red(), color.Green(), color.Blue());
         } else {
             // Mélange de la couleur avec l'arrière-plan en fonction de la transparence

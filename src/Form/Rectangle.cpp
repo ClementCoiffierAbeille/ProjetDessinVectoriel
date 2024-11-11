@@ -10,9 +10,9 @@ void Rectangle::draw(CImage &image) {
     int imageHeight = image.size();
     int invertedY = imageHeight - y - height;
 
-    // Dessiner le contour (lignes horizontales en haut et en bas)
+    //Dessine le contour (lignes horizontales en haut et en bas)
     for (int i = x; i < x + length; i++) {
-        // Ligne du haut
+        //Ligne du haut
         CPixel* topPixel = image.getPixel(i, invertedY);
         if (topPixel) {
             int newRed = (topPixel->Red() * (255 - transparency255) + color.Red() * transparency255) / 255;
@@ -21,7 +21,7 @@ void Rectangle::draw(CImage &image) {
             topPixel->RGB(newRed, newGreen, newBlue);
         }
 
-        // Ligne du bas
+        //Ligne du bas
         CPixel* bottomPixel = image.getPixel(i, invertedY + height - 1);
         if (bottomPixel) {
             int newRed = (bottomPixel->Red() * (255 - transparency255) + color.Red() * transparency255) / 255;
@@ -31,7 +31,7 @@ void Rectangle::draw(CImage &image) {
         }
     }
 
-    // Dessiner les côtés gauche et droit
+    //Dessine les côtés gauche et droit
     for (int j = invertedY; j < invertedY + height; j++) {
         // Côté gauche
         CPixel* leftPixel = image.getPixel(x, j);
@@ -42,7 +42,7 @@ void Rectangle::draw(CImage &image) {
             leftPixel->RGB(newRed, newGreen, newBlue);
         }
 
-        // Côté droit
+        //Côté droit
         CPixel* rightPixel = image.getPixel(x + length - 1, j);
         if (rightPixel) {
             int newRed = (rightPixel->Red() * (255 - transparency255) + color.Red() * transparency255) / 255;

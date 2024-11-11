@@ -1,6 +1,5 @@
 #include "CircleS.h"
 #include <cmath>
-#include <iostream>
 
 CircleS::CircleS(int xPos, int yPos, int radius, int r, int g, int b, int fr, int fg, int fb, int t)
         : Circle(xPos, yPos, radius, r, g, b, t), fillColor(fr, fg, fb) {}
@@ -15,7 +14,7 @@ void CircleS::draw(CImage &image) {
             imageWidth = firstLine->size();
         }
     }
-
+    // Conversion de la transparence de 0-100% en 0-255
     int transparency255 = static_cast<int>(getTransparency() * 2.55);
 
     // Remplissage intérieur du cercle

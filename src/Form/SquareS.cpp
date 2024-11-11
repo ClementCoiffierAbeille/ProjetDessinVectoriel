@@ -1,5 +1,4 @@
 #include "SquareS.h"
-#include <iostream>
 
 SquareS::SquareS(int xPos, int yPos, int len, int r, int g, int b, int fr, int fg, int fb, int t)
         : Square(xPos, yPos, len, r, g, b, t), fillColor(fr, fg, fb) {}
@@ -57,5 +56,5 @@ void SquareS::scale(float factor) {
     // Modifie la position du carré et sa dimension (longueur) en fonction du facteur d'échelle
     x = static_cast<int>(x * factor);
     y = static_cast<int>(y * factor);
-    length = static_cast<int>(length * factor);  // On modifie uniquement 'length', pas de 'height' à ajuster
+    length = static_cast<int>(length * factor);
 }

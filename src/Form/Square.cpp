@@ -12,7 +12,7 @@ void Square::draw(CImage &image) {
     int imageHeight = image.size();
 
     // Inverser l'axe Y pour le carré
-    int invertedY = imageHeight - y - length;  // Calcul de la position inversée du bas du carré
+    int invertedY = imageHeight - y - length;
 
     // Dessiner le contour du carré
     for (int i = x; i < x + length; i++) {
@@ -20,7 +20,7 @@ void Square::draw(CImage &image) {
             if (i == x || i == x + length - 1 || j == invertedY || j == invertedY + length - 1) {
                 CPixel* pixel = image.getPixel(i, j);
                 if (pixel) {
-                    if (transparency == 100) { // Pas de transparence
+                    if (transparency == 100) {
                         pixel->RGB(color.Red(), color.Green(), color.Blue());
                     } else {
                         // Mélange de la couleur avec l'arrière-plan en fonction de la transparence
@@ -40,5 +40,5 @@ void Square::scale(float factor) {
     // Modifie la position du carré et sa dimension (longueur) en fonction du facteur d'échelle
     x = static_cast<int>(x * factor);
     y = static_cast<int>(y * factor);
-    length = static_cast<int>(length * factor);  // On modifie uniquement 'length', pas de 'height' à ajuster
+    length = static_cast<int>(length * factor);
 }

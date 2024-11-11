@@ -1,8 +1,8 @@
 #ifndef RECTANGLE_H_
 #define RECTANGLE_H_
 
-#include "../Image/CPixel.h"   // Include CPixel for color
-#include "../Image/CImage.h"   // Include CImage for drawing
+#include "../Image/CPixel.h"   
+#include "../Image/CImage.h"
 
 class Rectangle {
 protected:

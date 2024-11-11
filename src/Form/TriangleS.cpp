@@ -16,7 +16,7 @@ void TriangleS::draw(CImage &image) {
 
     // Fonction de dessin de ligne
     auto drawLine = [&](int x1, int y1, int x2, int y2) {
-        // ... (code inchangé pour dessiner la ligne)
+
     };
 
     // Dessiner les trois côtés du triangle

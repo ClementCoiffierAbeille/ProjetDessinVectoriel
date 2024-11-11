@@ -12,6 +12,8 @@
 #include "./Form/CircleS.h"
 #include "./Form/RectangleS.h"
 #include "./Form/SquareS.h"
+#include "./Form/Triangle.h"
+#include "./Form/TriangleS.h"
 
 using namespace std;
 
@@ -93,11 +95,28 @@ struct DrawableSquareS : public Drawable {
     }
 };
 
+struct DrawableTriangle : public Drawable {
+    Triangle triangle;
+    DrawableTriangle(int order, const Triangle& triangle) : Drawable(order), triangle(triangle) {}
+    void draw(CImage& img) override {
+        triangle.draw(img);
+    }
+};
+
+struct DrawableTriangleS : public Drawable {  // Structure pour DrawableTriangleS
+    TriangleS triangleS;
+    DrawableTriangleS(int order, const TriangleS& triangleS) : Drawable(order), triangleS(triangleS) {}
+    void draw(CImage& img) override {
+        triangleS.draw(img);
+    }
+};
+
 void drawShapesInOrder(vector<Drawable*>& shapes, CImage& img, float scaleFactor) {
     // Tri des formes en fonction de l'ordre
     sort(shapes.begin(), shapes.end(), [](Drawable* a, Drawable* b) {
         return a->order < b->order;
     });
+
 
     // Appliquer l'échelle à chaque forme avant de la dessiner
     for (Drawable* shape : shapes) {
@@ -115,6 +134,10 @@ void drawShapesInOrder(vector<Drawable*>& shapes, CImage& img, float scaleFactor
             drawableSquare->square.scale(scaleFactor);
         } else if (auto drawableSquareS = dynamic_cast<DrawableSquareS*>(shape)) {
             drawableSquareS->squareS.scale(scaleFactor);
+        } else if (auto drawableTriangle = dynamic_cast<DrawableTriangle*>(shape)) {
+            drawableTriangle->triangle.scale(scaleFactor);
+        } else if (auto drawableTriangleS = dynamic_cast<DrawableTriangleS*>(shape)) {  // Ajout du triangleS
+            drawableTriangleS->triangleS.scale(scaleFactor);
         }
         shape->draw(img);
     }
@@ -231,6 +254,39 @@ void parseFileAndLoadShapes(const string& filename, vector<Drawable*>& shapes) {
                 cerr << "Erreur de lecture de la ligne SQUARES: " << line << endl;
             }
         }
+        else if (shapeType == "TRIANGLE") {
+            int x1, y1, x2, y2, x3, y3, transparency, order;
+            string colorStr;
+            char comma;
+
+            if (iss >> x1 >> comma >> y1 >> comma >> x2 >> comma >> y2 >> comma >> x3 >> comma >> y3 >> comma
+                && getline(iss, colorStr, ',')  // Lecture de la couleur
+                && (iss >> transparency >> comma >> order)) {
+
+                // Vérification des valeurs de couleur
+                cout << "Couleur lue: " << colorStr << endl;
+
+                auto [r, g, b] = colors[colorStr];  // Récupération des composantes RGB à partir du dictionnaire
+                shapes.push_back(new DrawableTriangle(order, Triangle(x1, y1, x2, y2, x3, y3, r, g, b, transparency)));
+            } else {
+                cerr << "Erreur de lecture de la ligne TRIANGLE: " << line << endl;
+            }
+        } else if (shapeType == "TRIANGLES") {  // Ajout pour TRIANGLE
+            int x1, y1, x2, y2, x3, y3, transparency, order;
+            string colorStr, fillColorStr;
+            char comma;
+
+            if (iss >> x1 >> comma >> y1 >> comma >> x2 >> comma >> y2 >> comma >> x3 >> comma >> y3 >> comma
+                && getline(iss, colorStr, ',')
+                && getline(iss, fillColorStr, ',')
+                && (iss >> transparency >> comma >> order)) {
+                auto [r, g, b] = colors[colorStr];
+                auto [fr, fg, fb] = colors[fillColorStr];
+                shapes.push_back(new DrawableTriangleS(order, TriangleS(x1, y1, x2, y2, x3, y3, r, g, b, fr, fg, fb, transparency)));
+            } else {
+                cerr << "Erreur de lecture de la ligne TRIANGLES: " << line << endl;
+            }
+        }
     }
 }
 
@@ -242,8 +298,8 @@ int main(int argc, char* argv[]) {
 
     // Appliquer le facteur d'échelle pour redimensionner l'image
     float scaleFactor = 2.0;
-    int newWidth = static_cast<int>(304 * scaleFactor);
-    int newHeight = static_cast<int>(304 * scaleFactor);
+    int newWidth = static_cast<int>(1200 * scaleFactor);
+    int newHeight = static_cast<int>(1200 * scaleFactor);
 
     // Créer l'image avec la nouvelle taille
     CImage* img = new CImage(newWidth, newHeight);
